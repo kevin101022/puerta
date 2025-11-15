@@ -265,6 +265,16 @@ function stopGame() {
         stream = null;
     }
     
+    // Detener VAPI
+    if (vapiInstance) {
+        try {
+            vapiInstance.stop();
+            console.log('🔇 VAPI detenido');
+        } catch (error) {
+            console.error('Error al detener VAPI:', error);
+        }
+    }
+    
     // Ocultar cámara después de un tiempo
     setTimeout(() => {
         cameraSection.classList.remove('active');
@@ -305,47 +315,79 @@ function showStatus(message) {
     }, 4000);
 }
 
+// Variable global para VAPI
+let vapiInstance = null;
+
 // Inicializar asistente de voz VAPI
-// Esta función será implementada cuando se integre VAPI
 function initializeVAPIAssistant() {
-    console.log('Preparando integración con VAPI...');
+    console.log('Inicializando VAPI...');
     
-    // NOTA: Aquí se inicializará el asistente de voz VAPI
-    // Ejemplo de integración:
-    // const vapi = new Vapi('API_KEY');
-    // vapi.start({
-    //     assistant: 'ASSISTANT_ID',
-    //     onMessage: handleVAPIMessage,
-    //     onError: handleVAPIError
-    // });
+    try {
+        // Crear instancia de Vapi con tu public key
+        vapiInstance = new Vapi('0de5c5e3-65af-4cd8-b593-49ebff3c7e7c');
+        
+        // Configurar event listeners
+        vapiInstance.on('call-start', () => {
+            console.log('✅ Llamada VAPI iniciada');
+            showStatus('Asistente de voz conectado');
+        });
+        
+        vapiInstance.on('call-end', () => {
+            console.log('📞 Llamada VAPI finalizada');
+        });
+        
+        vapiInstance.on('speech-start', () => {
+            console.log('🎤 Usuario hablando...');
+        });
+        
+        vapiInstance.on('speech-end', () => {
+            console.log('🎤 Usuario dejó de hablar');
+        });
+        
+        vapiInstance.on('message', (message) => {
+            console.log('💬 Mensaje VAPI:', message);
+            handleVAPIMessage(message);
+        });
+        
+        vapiInstance.on('error', (error) => {
+            console.error('❌ Error VAPI:', error);
+            handleVAPIError(error);
+        });
+        
+        // Iniciar llamada con el asistente
+        vapiInstance.start('706368b4-31fe-4e35-8cab-50edc17808cf');
+        
+        console.log('🎙️ VAPI iniciado correctamente');
+        
+    } catch (error) {
+        console.error('❌ Error al inicializar VAPI:', error);
+        showStatus('Error al conectar con el asistente de voz');
+    }
 }
 
 // Notificar al asistente VAPI sobre eventos del juego
 function notifyVAPIAssistant(event) {
     console.log('Notificando a VAPI:', event);
     
-    // NOTA: Esta función enviará eventos al asistente de voz
-    // Ejemplo:
-    // vapi.send({
-    //     type: 'game_event',
-    //     event: event,
-    //     timestamp: Date.now()
-    // });
+    if (!vapiInstance) {
+        console.log('VAPI no está inicializado');
+        return;
+    }
     
-    // Mensajes que el asistente podría decir:
-    switch(event) {
-        case 'game_start':
-            console.log('VAPI: "Bienvenido al desafío del castillo. Muestra la llave para abrir la puerta."');
-            break;
-        case 'key_correct':
-            console.log('VAPI: "¡Excelente! Has encontrado la llave correcta. La puerta se abre ante ti."');
-            break;
-        case 'key_incorrect':
-            console.log('VAPI: "Esa no es la llave correcta. Intenta de nuevo."');
-            break;
-        case 'game_complete':
-            console.log('VAPI: "¡Felicidades! Has completado el desafío. Los secretos del castillo son tuyos."');
-            break;
+    try {
+        // Enviar mensaje al asistente
+        vapiInstance.send({
+            type: 'add-message',
+            message: {
+                role: 'system',
+                content: `Evento del juego: ${event}`
+            }
+        });
+        
+        console.log(`✅ Evento "${event}" enviado a VAPI`);
+        
+    } catch (error) {
+        console.error('Error al notificar a VAPI:', error);
     }
 }
 
