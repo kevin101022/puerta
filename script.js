@@ -9,8 +9,6 @@ let model, webcam, ctx, labelContainer, maxPredictions;
 const URL = "https://teachablemachine.withgoogle.com/models/YsCOZ0rkm/";
 
 // Elementos del DOM
-const lobbyScreen = document.getElementById('lobbyScreen');
-const startGameButton = document.getElementById('startGameButton');
 const gameContent = document.getElementById('gameContent');
 const startButton = document.getElementById('startButton');
 const cameraSection = document.getElementById('cameraSection');
@@ -19,10 +17,6 @@ const gateDoors = document.getElementById('gateDoors');
 const hallwayReveal = document.getElementById('hallwayReveal');
 const statusMessage = document.getElementById('statusMessage');
 const instructionsPanel = document.getElementById('instructionsPanel');
-// Elementos de audio (opcionales)
-// const doorOpenSound = document.getElementById('doorOpenSound');
-// const ambientSound = document.getElementById('ambientSound');
-// const errorSound = document.getElementById('errorSound');
 
 // Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,14 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Configurar event listeners
 function setupEventListeners() {
-    startGameButton.addEventListener('click', showGameScreen);
     startButton.addEventListener('click', initializeGame);
-}
-
-// Mostrar pantalla del juego
-function showGameScreen() {
-    lobbyScreen.style.display = 'none';
-    gameContent.style.display = 'grid';
 }
 
 // Reproducir sonido ambiental de fondo
@@ -92,9 +79,6 @@ async function initializeGame() {
         
         // Inicializar modelo de Teachable Machine
         await initPoseDetection();
-        
-        // Inicializar asistente de voz VAPI
-        initializeVAPIAssistant();
         
     } catch (error) {
         console.error('Error al acceder a la cámara:', error);
@@ -203,7 +187,6 @@ function onKeyDetected(isCorrectKey) {
         
         showStatus('¡Llave correcta detectada! Abriendo la puerta...');
         openGate();
-        notifyVAPIAssistant('key_correct');
         
         // Detener el juego después de abrir la puerta
         setTimeout(() => {
@@ -214,7 +197,6 @@ function onKeyDetected(isCorrectKey) {
         // ❌ LLAVE INCORRECTA
         showStatus('Llave incorrecta. La puerta permanece sellada.');
         playErrorSound();
-        notifyVAPIAssistant('key_incorrect');
         
         // Permitir otro intento después de 2 segundos
         setTimeout(() => {
@@ -265,15 +247,7 @@ function stopGame() {
         stream = null;
     }
     
-    // Detener VAPI si hay una llamada activa
-    if (window.vapiInstance) {
-        try {
-            window.vapiInstance.stop();
-            console.log('🔇 VAPI detenido');
-        } catch (error) {
-            console.error('Error al detener VAPI:', error);
-        }
-    }
+
     
     // Ocultar cámara después de un tiempo
     setTimeout(() => {
@@ -313,82 +287,6 @@ function showStatus(message) {
     setTimeout(() => {
         statusMessage.classList.remove('show');
     }, 4000);
-}
-
-// Inicializar asistente de voz VAPI
-function initializeVAPIAssistant() {
-    console.log('VAPI widget está disponible para usar');
-    
-    // El widget ya está inicializado en el HTML
-    // Los usuarios pueden hacer clic en el botón flotante para hablar
-    
-    if (window.vapiInstance) {
-        console.log('✅ VAPI widget cargado correctamente');
-        
-        // Configurar event listeners si están disponibles
-        try {
-            window.vapiInstance.on('call-start', () => {
-                console.log('✅ Llamada VAPI iniciada');
-                showStatus('Asistente de voz conectado');
-            });
-            
-            window.vapiInstance.on('call-end', () => {
-                console.log('📞 Llamada VAPI finalizada');
-            });
-            
-            window.vapiInstance.on('message', (message) => {
-                console.log('💬 Mensaje VAPI:', message);
-                handleVAPIMessage(message);
-            });
-            
-            window.vapiInstance.on('error', (error) => {
-                console.error('❌ Error VAPI:', error);
-                handleVAPIError(error);
-            });
-        } catch (error) {
-            console.log('Event listeners no disponibles en esta versión del widget');
-        }
-    } else {
-        console.log('⏳ VAPI widget aún cargando...');
-    }
-}
-
-// Notificar al asistente VAPI sobre eventos del juego
-function notifyVAPIAssistant(event) {
-    console.log('Notificando a VAPI:', event);
-    
-    if (!window.vapiInstance) {
-        console.log('VAPI no está inicializado');
-        return;
-    }
-    
-    try {
-        // Enviar mensaje al asistente si hay una llamada activa
-        window.vapiInstance.send({
-            type: 'add-message',
-            message: {
-                role: 'system',
-                content: `Evento del juego: ${event}`
-            }
-        });
-        
-        console.log(`✅ Evento "${event}" enviado a VAPI`);
-        
-    } catch (error) {
-        console.error('Error al notificar a VAPI:', error);
-    }
-}
-
-// Manejar mensajes del asistente VAPI
-function handleVAPIMessage(message) {
-    // NOTA: Esta función procesará mensajes del asistente de voz
-    console.log('Mensaje de VAPI:', message);
-}
-
-// Manejar errores de VAPI
-function handleVAPIError(error) {
-    console.error('Error de VAPI:', error);
-    showStatus('Error en el asistente de voz');
 }
 
 // Limpiar recursos al cerrar la página

@@ -1472,3 +1472,43 @@ body {
         gap: 12px;
     }
 }
+
+/* Ajustes para evitar que VAPI tape el botón en móviles */
+@media (max-width: 768px) {
+    .lobby-screen {
+        padding-bottom: 150px !important;
+    }
+    
+    .lobby-content {
+        position: relative;
+        z-index: 10;
+    }
+    
+    .btn-start-game {
+        margin-bottom: 80px !important;
+    }
+    
+    /* Hacer iframe de VAPI más pequeño en tablets */
+    iframe[src="vapi-widget.html"] {
+        width: 350px !important;
+        height: 550px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .lobby-screen {
+        padding-bottom: 200px !important;
+    }
+    
+    .btn-start-game {
+        margin-bottom: 100px !important;
+    }
+    
+    /* Hacer iframe de VAPI aún más pequeño en móviles */
+    iframe[src="vapi-widget.html"] {
+        width: 280px !important;
+        height: 480px !important;
+        bottom: 10px !important;
+        right: 10px !important;
+    }
+}
