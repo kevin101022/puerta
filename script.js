@@ -265,10 +265,10 @@ function stopGame() {
         stream = null;
     }
     
-    // Detener VAPI
-    if (vapiInstance) {
+    // Detener VAPI si hay una llamada activa
+    if (window.vapiInstance) {
         try {
-            vapiInstance.stop();
+            window.vapiInstance.stop();
             console.log('🔇 VAPI detenido');
         } catch (error) {
             console.error('Error al detener VAPI:', error);
@@ -315,53 +315,41 @@ function showStatus(message) {
     }, 4000);
 }
 
-// Variable global para VAPI
-let vapiInstance = null;
-
 // Inicializar asistente de voz VAPI
 function initializeVAPIAssistant() {
-    console.log('Inicializando VAPI...');
+    console.log('VAPI widget está disponible para usar');
     
-    try {
-        // Crear instancia de Vapi con tu public key
-        vapiInstance = new Vapi('0de5c5e3-65af-4cd8-b593-49ebff3c7e7c');
+    // El widget ya está inicializado en el HTML
+    // Los usuarios pueden hacer clic en el botón flotante para hablar
+    
+    if (window.vapiInstance) {
+        console.log('✅ VAPI widget cargado correctamente');
         
-        // Configurar event listeners
-        vapiInstance.on('call-start', () => {
-            console.log('✅ Llamada VAPI iniciada');
-            showStatus('Asistente de voz conectado');
-        });
-        
-        vapiInstance.on('call-end', () => {
-            console.log('📞 Llamada VAPI finalizada');
-        });
-        
-        vapiInstance.on('speech-start', () => {
-            console.log('🎤 Usuario hablando...');
-        });
-        
-        vapiInstance.on('speech-end', () => {
-            console.log('🎤 Usuario dejó de hablar');
-        });
-        
-        vapiInstance.on('message', (message) => {
-            console.log('💬 Mensaje VAPI:', message);
-            handleVAPIMessage(message);
-        });
-        
-        vapiInstance.on('error', (error) => {
-            console.error('❌ Error VAPI:', error);
-            handleVAPIError(error);
-        });
-        
-        // Iniciar llamada con el asistente
-        vapiInstance.start('706368b4-31fe-4e35-8cab-50edc17808cf');
-        
-        console.log('🎙️ VAPI iniciado correctamente');
-        
-    } catch (error) {
-        console.error('❌ Error al inicializar VAPI:', error);
-        showStatus('Error al conectar con el asistente de voz');
+        // Configurar event listeners si están disponibles
+        try {
+            window.vapiInstance.on('call-start', () => {
+                console.log('✅ Llamada VAPI iniciada');
+                showStatus('Asistente de voz conectado');
+            });
+            
+            window.vapiInstance.on('call-end', () => {
+                console.log('📞 Llamada VAPI finalizada');
+            });
+            
+            window.vapiInstance.on('message', (message) => {
+                console.log('💬 Mensaje VAPI:', message);
+                handleVAPIMessage(message);
+            });
+            
+            window.vapiInstance.on('error', (error) => {
+                console.error('❌ Error VAPI:', error);
+                handleVAPIError(error);
+            });
+        } catch (error) {
+            console.log('Event listeners no disponibles en esta versión del widget');
+        }
+    } else {
+        console.log('⏳ VAPI widget aún cargando...');
     }
 }
 
@@ -369,14 +357,14 @@ function initializeVAPIAssistant() {
 function notifyVAPIAssistant(event) {
     console.log('Notificando a VAPI:', event);
     
-    if (!vapiInstance) {
+    if (!window.vapiInstance) {
         console.log('VAPI no está inicializado');
         return;
     }
     
     try {
-        // Enviar mensaje al asistente
-        vapiInstance.send({
+        // Enviar mensaje al asistente si hay una llamada activa
+        window.vapiInstance.send({
             type: 'add-message',
             message: {
                 role: 'system',
