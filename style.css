@@ -1,0 +1,1474 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-stone-dark: #2a2520;
+    --color-stone-medium: #3d3530;
+    --color-stone-light: #5a4f45;
+    --color-wood-dark: #4a3520;
+    --color-wood-medium: #6b4423;
+    --color-wood-light: #8b5a2b;
+    --color-iron: #3a3a3a;
+    --color-iron-light: #5a5a5a;
+    --color-gold: #d4af37;
+    --color-gold-dark: #b8941f;
+    --color-parchment: #f4e8d0;
+    --color-parchment-dark: #d4c4a8;
+    --color-flame: #ff6b1a;
+    --color-flame-bright: #ffaa00;
+    --font-title: 'Uncial Antiqua', cursive;
+    --font-heading: 'Cinzel', serif;
+    --font-body: 'MedievalSharp', cursive;
+}
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(180deg, #1a1410 0%, #2a2015 50%, #1a1410 100%);
+    color: var(--color-parchment);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.ambient-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 20% 30%, rgba(255, 107, 26, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 30%, rgba(255, 107, 26, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.main-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px 20px;
+    background: linear-gradient(180deg, rgba(42, 37, 32, 0.6) 0%, rgba(61, 53, 48, 0.4) 100%);
+    border: 2px solid var(--color-iron);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.game-title {
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    color: var(--color-gold);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(212, 175, 55, 0.4);
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+}
+
+.game-subtitle {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-parchment-dark);
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+/* Lobby de inicio */
+.lobby-screen {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.lobby-content {
+    background: linear-gradient(180deg, rgba(42, 37, 32, 0.95) 0%, rgba(61, 53, 48, 0.9) 100%);
+    border: 4px solid var(--color-iron);
+    border-radius: 15px;
+    padding: 50px 40px;
+    box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.8),
+        inset 0 0 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.lobby-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.banner-decoration {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--color-gold) 50%, transparent 100%);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.lobby-welcome {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: var(--color-gold);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(212, 175, 55, 0.4);
+    letter-spacing: 2px;
+}
+
+.lobby-description {
+    margin: 30px 0 50px;
+    padding: 0 20px;
+}
+
+.lobby-text {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-parchment);
+    line-height: 1.8;
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.lobby-text.highlight {
+    font-size: 1.3rem;
+    color: var(--color-gold);
+    font-weight: 600;
+    margin-top: 35px;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-start-game {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-parchment);
+    background: linear-gradient(180deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+    border: 4px solid var(--color-iron);
+    border-radius: 10px;
+    padding: 22px 70px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 20px;
+}
+
+.btn-start-game:hover {
+    background: linear-gradient(180deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.8),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(212, 175, 55, 0.6);
+}
+
+.btn-start-game:active {
+    transform: translateY(-1px) scale(1);
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.7),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.btn-start-game .btn-icon {
+    font-size: 1.8rem;
+}
+
+.game-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 20px;
+    align-items: center;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.gate-scene {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.castle-wall {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg, transparent 0%, rgba(90, 79, 69, 0.1) 20%, rgba(90, 79, 69, 0.1) 80%, transparent 100%),
+        repeating-linear-gradient(0deg, var(--color-stone-dark) 0px, var(--color-stone-dark) 40px, var(--color-stone-medium) 40px, var(--color-stone-medium) 42px),
+        repeating-linear-gradient(90deg, var(--color-stone-dark) 0px, var(--color-stone-dark) 60px, var(--color-stone-medium) 60px, var(--color-stone-medium) 62px);
+    box-shadow: 
+        inset 0 0 50px rgba(0, 0, 0, 0.5),
+        0 10px 40px rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gate-container {
+    position: relative;
+    width: 60%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gate-arch {
+    position: absolute;
+    top: -10%;
+    left: -5%;
+    width: 110%;
+    height: 30%;
+    background: 
+        radial-gradient(ellipse at 50% 100%, var(--color-stone-light) 0%, var(--color-stone-medium) 50%, transparent 100%);
+    border-radius: 50% 50% 0 0;
+    border: 3px solid var(--color-iron);
+    border-bottom: none;
+    box-shadow: 
+        inset 0 -10px 20px rgba(0, 0, 0, 0.5),
+        0 5px 15px rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.gate-doors {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.gate-door {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: 
+        linear-gradient(180deg, var(--color-wood-medium) 0%, var(--color-wood-dark) 100%);
+    border: 4px solid var(--color-iron);
+    box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.6),
+        0 10px 30px rgba(0, 0, 0, 0.8);
+    transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: center;
+}
+
+.gate-door-left {
+    left: 0;
+    border-radius: 10px 0 0 10px;
+}
+
+.gate-door-right {
+    right: 0;
+    border-radius: 0 10px 10px 0;
+}
+
+.gate-doors.opening .gate-door-left {
+    transform: perspective(1200px) rotateY(120deg);
+    transform-origin: left center;
+}
+
+.gate-doors.opening .gate-door-right {
+    transform: perspective(1200px) rotateY(-120deg);
+    transform-origin: right center;
+}
+
+.door-panel {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: 
+        repeating-linear-gradient(180deg, 
+            var(--color-wood-light) 0px, 
+            var(--color-wood-light) 15%, 
+            var(--color-wood-dark) 15%, 
+            var(--color-wood-dark) 17%);
+    border: 2px solid var(--color-iron);
+    border-radius: 5px;
+}
+
+.door-reinforcement {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 15%;
+    background: linear-gradient(180deg, var(--color-iron-light) 0%, var(--color-iron) 100%);
+    border: 2px solid var(--color-iron);
+    border-radius: 3px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.door-reinforcement::before,
+.door-reinforcement::after {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    background: inherit;
+    border: inherit;
+    border-radius: inherit;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.door-reinforcement::before {
+    top: -200%;
+}
+
+.door-reinforcement::after {
+    bottom: -200%;
+}
+
+.door-rivets {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.door-rivets::before,
+.door-rivets::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, var(--color-iron-light) 0%, var(--color-iron) 70%);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.door-rivets::before {
+    top: 15%;
+    left: 15%;
+}
+
+.door-rivets::after {
+    bottom: 15%;
+    left: 15%;
+}
+
+.gate-keyhole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 40px;
+    background: radial-gradient(circle at 50% 30%, #1a1a1a 0%, #000 100%);
+    border: 3px solid var(--color-iron);
+    border-radius: 50% 50% 0 0;
+    box-shadow: 
+        inset 0 4px 8px rgba(0, 0, 0, 0.9),
+        0 0 15px rgba(212, 175, 55, 0.3);
+    z-index: 3;
+}
+
+.gate-keyhole::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 20px;
+    background: #000;
+    border: 2px solid var(--color-iron);
+    border-top: none;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+}
+
+.torch {
+    position: absolute;
+    width: 60px;
+    height: 200px;
+    z-index: 3;
+}
+
+.torch-left {
+    left: 5%;
+    top: 20%;
+}
+
+.torch-right {
+    right: 5%;
+    top: 20%;
+}
+
+.torch-handle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 150px;
+    background: linear-gradient(180deg, var(--color-wood-medium) 0%, var(--color-wood-dark) 100%);
+    border: 2px solid var(--color-iron);
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.torch-flame {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 60px;
+    background: radial-gradient(ellipse at 50% 60%, var(--color-flame-bright) 0%, var(--color-flame) 50%, transparent 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    filter: blur(2px);
+    animation: flameFlicker 2s ease-in-out infinite;
+    box-shadow: 
+        0 0 20px var(--color-flame),
+        0 0 40px rgba(255, 107, 26, 0.5);
+}
+
+@keyframes flameFlicker {
+    0%, 100% {
+        transform: translateX(-50%) scale(1) translateY(0);
+        opacity: 1;
+    }
+    25% {
+        transform: translateX(-50%) scale(1.05) translateY(-3px);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translateX(-50%) scale(0.95) translateY(2px);
+        opacity: 1;
+    }
+    75% {
+        transform: translateX(-50%) scale(1.02) translateY(-2px);
+        opacity: 0.95;
+    }
+}
+
+.hallway-reveal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(180deg, rgba(26, 20, 16, 0.95) 0%, rgba(42, 32, 21, 0.9) 100%),
+        repeating-linear-gradient(0deg, transparent 0px, transparent 40px, rgba(0, 0, 0, 0.2) 40px, rgba(0, 0, 0, 0.2) 42px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out 1.2s, visibility 0s 1.2s;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.hallway-reveal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hallway-content {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hallway-torch {
+    position: absolute;
+    width: 40px;
+    height: 80px;
+    top: 10%;
+}
+
+.hallway-torch-left {
+    left: 10%;
+}
+
+.hallway-torch-right {
+    right: 10%;
+}
+
+.hallway-torch .torch-flame {
+    width: 30px;
+    height: 45px;
+}
+
+.victory-message {
+    text-align: center;
+    padding: 40px;
+    background: rgba(42, 37, 32, 0.8);
+    border: 3px solid var(--color-gold);
+    border-radius: 10px;
+    box-shadow: 
+        0 0 30px rgba(212, 175, 55, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.victory-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--color-gold);
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+}
+
+.victory-text {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--color-parchment);
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.camera-section {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.camera-frame {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    background: var(--color-stone-dark);
+    border: 6px solid var(--color-iron);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.8),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#cameraView {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* Voltear horizontalmente para corregir inversión */
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #1a1410;
+}
+
+.camera-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(0deg, rgba(42, 37, 32, 0.95) 0%, transparent 100%);
+    text-align: center;
+}
+
+.camera-instruction {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--color-gold);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.instructions-panel {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.parchment {
+    background: 
+        linear-gradient(135deg, var(--color-parchment) 0%, var(--color-parchment-dark) 100%);
+    border: 3px solid var(--color-wood-dark);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.6),
+        inset 0 0 30px rgba(139, 90, 43, 0.1);
+    position: relative;
+}
+
+.parchment::before,
+.parchment::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--color-iron);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.parchment::before {
+    top: 15px;
+    left: 15px;
+}
+
+.parchment::after {
+    top: 15px;
+    right: 15px;
+}
+
+.instructions-title {
+    font-family: var(--font-title);
+    font-size: 1.8rem;
+    color: var(--color-wood-dark);
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.instructions-list {
+    list-style: none;
+    padding: 0;
+}
+
+.instructions-list li {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--color-stone-dark);
+    margin: 15px 0;
+    padding-left: 30px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.instructions-list li::before {
+    content: '⚔';
+    position: absolute;
+    left: 0;
+    color: var(--color-wood-dark);
+    font-size: 1.2rem;
+}
+
+.controls-panel {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.btn-primary {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-parchment);
+    background: linear-gradient(180deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+    border: 3px solid var(--color-iron);
+    border-radius: 8px;
+    padding: 18px 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.6),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(180deg, var(--color-gold-dark) 0%, var(--color-gold) 100%);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.7),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.6),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.btn-icon {
+    font-size: 1.5rem;
+}
+
+.status-message {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    background: rgba(42, 37, 32, 0.95);
+    border: 2px solid var(--color-gold);
+    border-radius: 8px;
+    color: var(--color-parchment);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+.status-message.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 1024px) {
+    .game-title {
+        font-size: 2.8rem;
+    }
+    
+    .game-subtitle {
+        font-size: 1rem;
+    }
+    
+    .gate-scene {
+        max-width: 600px;
+    }
+    
+    .torch {
+        width: 50px;
+        height: 160px;
+    }
+    
+    .torch-handle {
+        width: 18px;
+        height: 120px;
+    }
+    
+    .torch-flame {
+        width: 35px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        padding: 15px;
+    }
+    
+    .game-header {
+        padding: 20px 15px;
+        margin-bottom: 30px;
+    }
+    
+    .game-title {
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+    }
+    
+    .game-subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+    
+    .gate-scene {
+        max-width: 100%;
+        aspect-ratio: 3/4;
+    }
+    
+    .gate-container {
+        width: 70%;
+        height: 60%;
+    }
+    
+    .torch {
+        width: 40px;
+        height: 130px;
+    }
+    
+    .torch-left {
+        left: 2%;
+    }
+    
+    .torch-right {
+        right: 2%;
+    }
+    
+    .torch-handle {
+        width: 15px;
+        height: 100px;
+    }
+    
+    .torch-flame {
+        width: 30px;
+        height: 40px;
+    }
+    
+    .victory-title {
+        font-size: 1.5rem;
+    }
+    
+    .victory-text {
+        font-size: 0.95rem;
+    }
+    
+    .parchment {
+        padding: 20px;
+    }
+    
+    .instructions-title {
+        font-size: 1.4rem;
+    }
+    
+    .instructions-list li {
+        font-size: 0.9rem;
+        padding-left: 25px;
+    }
+    
+    .btn-primary {
+        font-size: 1.1rem;
+        padding: 15px 35px;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-title {
+        font-size: 1.8rem;
+    }
+    
+    .game-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .gate-container {
+        width: 80%;
+    }
+    
+    .torch {
+        width: 30px;
+        height: 100px;
+    }
+    
+    .torch-handle {
+        width: 12px;
+        height: 80px;
+    }
+    
+    .torch-flame {
+        width: 25px;
+        height: 35px;
+    }
+    
+    .victory-message {
+        padding: 25px;
+    }
+    
+    .victory-title {
+        font-size: 1.2rem;
+    }
+    
+    .victory-text {
+        font-size: 0.85rem;
+    }
+    
+    .parchment {
+        padding: 15px;
+    }
+    
+    .instructions-title {
+        font-size: 1.2rem;
+    }
+    
+    .instructions-list li {
+        font-size: 0.85rem;
+        margin: 12px 0;
+    }
+    
+    .btn-primary {
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+    
+    .camera-instruction {
+        font-size: 0.9rem;
+    }
+}
+
+
+/* ========================================
+   ESTILOS PARA PASILLO OSCURO
+   ======================================== */
+
+/* Entrada principal - Pasillo con perspectiva profunda */
+.dungeon-entrance {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    overflow: hidden;
+    perspective: 800px;
+}
+
+.dark-passage {
+    width: 95%;
+    height: 95%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(8deg);
+    background: 
+        radial-gradient(ellipse at center 40%, 
+            #0a1420 0%,
+            #050a10 40%,
+            #000000 80%);
+}
+
+/* Pared izquierda con perspectiva */
+.dark-passage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg,
+            #c17a3a 0%,
+            #a0652f 8%,
+            #6b4520 18%,
+            #4a3a2a 30%,
+            #2a2520 45%,
+            #1a1a1a 65%,
+            #0a0a0a 85%,
+            #000000 100%);
+    clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+    box-shadow: 
+        inset -30px 0 60px rgba(0,0,0,0.8),
+        inset 0 0 40px rgba(0,0,0,0.6);
+}
+
+/* Pared derecha con perspectiva */
+.dark-passage::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: 
+        linear-gradient(270deg,
+            #c17a3a 0%,
+            #a0652f 8%,
+            #6b4520 18%,
+            #4a3a2a 30%,
+            #2a2520 45%,
+            #1a1a1a 65%,
+            #0a0a0a 85%,
+            #000000 100%);
+    clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%);
+    box-shadow: 
+        inset 30px 0 60px rgba(0,0,0,0.8),
+        inset 0 0 40px rgba(0,0,0,0.6);
+}
+
+.passage-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 15% 22%, 
+            rgba(255, 120, 40, 0.45) 0%,
+            rgba(255, 100, 30, 0.25) 10%,
+            rgba(200, 80, 20, 0.1) 20%,
+            transparent 30%),
+        radial-gradient(ellipse at 85% 22%, 
+            rgba(255, 120, 40, 0.45) 0%,
+            rgba(255, 100, 30, 0.25) 10%,
+            rgba(200, 80, 20, 0.1) 20%,
+            transparent 30%),
+        radial-gradient(ellipse at center 60%, 
+            rgba(40, 60, 80, 0.15) 0%,
+            rgba(20, 40, 60, 0.08) 30%,
+            transparent 60%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Antorchas en las paredes del pasillo */
+.wall-torches {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.wall-torch {
+    position: absolute;
+    width: 80px;
+    height: 120px;
+}
+
+.wall-torch.left-torch {
+    left: 12%;
+    top: 20%;
+}
+
+.wall-torch.right-torch {
+    right: 12%;
+    top: 20%;
+}
+
+/* Soporte de la antorcha */
+.wall-torch::before {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 60px;
+    background: linear-gradient(180deg, #4a4a4a 0%, #3a3a3a 40%, #2a2a2a 70%, #1a1a1a 100%);
+    border-radius: 4px;
+    box-shadow: 
+        0 3px 10px rgba(0,0,0,0.9),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+}
+
+/* Base de la antorcha */
+.wall-torch::after {
+    content: '';
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 12px;
+    background: linear-gradient(180deg, #5a5a5a 0%, #3a3a3a 100%);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+
+.flame {
+    position: absolute;
+    bottom: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 65px;
+    background: 
+        radial-gradient(ellipse at center bottom, 
+            #ff5500 0%, 
+            #ff7700 15%,
+            #ff9900 30%,
+            #ffbb00 50%,
+            #ffdd00 70%,
+            transparent 100%);
+    border-radius: 50% 50% 20% 20%;
+    opacity: 0;
+    filter: blur(2.5px);
+    animation: flameFlicker 0.5s ease-in-out infinite alternate;
+}
+
+.flame::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 26px;
+    height: 40px;
+    background: 
+        radial-gradient(ellipse at center bottom, 
+            #ffcc00 0%, 
+            #ffee00 30%,
+            #ffff88 60%,
+            transparent 100%);
+    border-radius: 50%;
+    filter: blur(4px);
+}
+
+.flame::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255, 140, 60, 0.35) 0%, rgba(255, 120, 40, 0.15) 35%, transparent 65%);
+    border-radius: 50%;
+}
+
+/* Animación de encendido */
+.reward-container.visible .wall-torch.torch-1 .flame,
+.hallway-reveal.visible .wall-torch.torch-1 .flame {
+    animation: flameFlicker 0.4s ease-in-out infinite alternate, 
+               torchIgnite 0.6s ease-out 0.4s forwards;
+}
+
+.reward-container.visible .wall-torch.torch-2 .flame,
+.hallway-reveal.visible .wall-torch.torch-2 .flame {
+    animation: flameFlicker 0.4s ease-in-out infinite alternate, 
+               torchIgnite 0.6s ease-out 0.8s forwards;
+}
+
+/* Versión del juego */
+.dungeon-entrance-game {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    overflow: hidden;
+    perspective: 700px;
+}
+
+.dark-passage-game {
+    width: 95%;
+    height: 95%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(8deg);
+    background: 
+        radial-gradient(ellipse at center 40%, 
+            #0a1420 0%,
+            #050a10 40%,
+            #000000 80%);
+}
+
+.dark-passage-game::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 100%;
+    background: 
+        linear-gradient(90deg,
+            #c17a3a 0%,
+            #a0652f 8%,
+            #6b4520 18%,
+            #4a3a2a 30%,
+            #2a2520 45%,
+            #1a1a1a 65%,
+            #0a0a0a 85%,
+            #000000 100%);
+    clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+    box-shadow: 
+        inset -30px 0 60px rgba(0,0,0,0.8),
+        inset 0 0 40px rgba(0,0,0,0.6);
+}
+
+.dark-passage-game::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: 
+        linear-gradient(270deg,
+            #c17a3a 0%,
+            #a0652f 8%,
+            #6b4520 18%,
+            #4a3a2a 30%,
+            #2a2520 45%,
+            #1a1a1a 65%,
+            #0a0a0a 85%,
+            #000000 100%);
+    clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%);
+    box-shadow: 
+        inset 30px 0 60px rgba(0,0,0,0.8),
+        inset 0 0 40px rgba(0,0,0,0.6);
+}
+
+.passage-glow-game {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 15% 22%, 
+            rgba(255, 120, 40, 0.45) 0%,
+            rgba(255, 100, 30, 0.25) 10%,
+            rgba(200, 80, 20, 0.1) 20%,
+            transparent 30%),
+        radial-gradient(ellipse at 85% 22%, 
+            rgba(255, 120, 40, 0.45) 0%,
+            rgba(255, 100, 30, 0.25) 10%,
+            rgba(200, 80, 20, 0.1) 20%,
+            transparent 30%),
+        radial-gradient(ellipse at center 60%, 
+            rgba(40, 60, 80, 0.15) 0%,
+            rgba(20, 40, 60, 0.08) 30%,
+            transparent 60%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.wall-torches-game {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.wall-torch-game {
+    position: absolute;
+    width: 65px;
+    height: 100px;
+}
+
+.wall-torch-game.left-torch {
+    left: 12%;
+    top: 20%;
+}
+
+.wall-torch-game.right-torch {
+    right: 12%;
+    top: 20%;
+}
+
+.wall-torch-game::before {
+    content: '';
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 13px;
+    height: 50px;
+    background: linear-gradient(180deg, #4a4a4a 0%, #3a3a3a 40%, #2a2a2a 70%, #1a1a1a 100%);
+    border-radius: 3px;
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.9),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+}
+
+.wall-torch-game::after {
+    content: '';
+    position: absolute;
+    bottom: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 10px;
+    background: linear-gradient(180deg, #5a5a5a 0%, #3a3a3a 100%);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.8);
+}
+
+.flame-game {
+    position: absolute;
+    bottom: 63px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 33px;
+    height: 55px;
+    background: 
+        radial-gradient(ellipse at center bottom, 
+            #ff5500 0%, 
+            #ff7700 15%,
+            #ff9900 30%,
+            #ffbb00 50%,
+            #ffdd00 70%,
+            transparent 100%);
+    border-radius: 50% 50% 20% 20%;
+    opacity: 0;
+    filter: blur(2px);
+    animation: flameFlicker 0.5s ease-in-out infinite alternate;
+}
+
+.flame-game::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 34px;
+    background: 
+        radial-gradient(ellipse at center bottom, 
+            #ffcc00 0%, 
+            #ffee00 30%,
+            #ffff88 60%,
+            transparent 100%);
+    border-radius: 50%;
+    filter: blur(3.5px);
+}
+
+.flame-game::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 125px;
+    height: 125px;
+    background: radial-gradient(circle, rgba(255, 140, 60, 0.35) 0%, rgba(255, 120, 40, 0.15) 35%, transparent 65%);
+    border-radius: 50%;
+}
+
+.reward-container-game.visible .wall-torch-game.torch-1 .flame-game {
+    animation: flameFlicker 0.4s ease-in-out infinite alternate, 
+               torchIgnite 0.6s ease-out 0.4s forwards;
+}
+
+.reward-container-game.visible .wall-torch-game.torch-2 .flame-game {
+    animation: flameFlicker 0.4s ease-in-out infinite alternate, 
+               torchIgnite 0.6s ease-out 0.8s forwards;
+}
+
+
+/* Revelación del pasillo cuando se abre la puerta */
+.hallway-reveal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out 1.5s, visibility 0s 1.5s;
+    z-index: 5;
+}
+
+.hallway-reveal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.victory-message {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+}
+
+.victory-text {
+    font-family: var(--font-decorative);
+    font-size: 1.2rem;
+    color: var(--color-gold);
+    text-shadow: 
+        2px 2px 4px rgba(0,0,0,0.8),
+        0 0 20px rgba(212, 175, 55, 0.6);
+    margin: 5px 0;
+}
+
+
+/* Media queries para layout responsive */
+@media (max-width: 1200px) {
+    .game-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .gate-scene,
+    .camera-section {
+        height: 500px;
+    }
+    
+    .camera-frame {
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .lobby-content {
+        padding: 35px 25px;
+    }
+    
+    .lobby-welcome {
+        font-size: 2rem;
+    }
+    
+    .lobby-text {
+        font-size: 1rem;
+    }
+    
+    .lobby-text.highlight {
+        font-size: 1.15rem;
+    }
+    
+    .btn-start-game {
+        font-size: 1.3rem;
+        padding: 18px 50px;
+    }
+    
+    .game-content {
+        padding: 15px;
+    }
+    
+    .gate-scene,
+    .camera-section {
+        height: 400px;
+    }
+    
+    .camera-frame {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lobby-content {
+        padding: 25px 20px;
+    }
+    
+    .lobby-welcome {
+        font-size: 1.6rem;
+    }
+    
+    .banner-decoration {
+        width: 50px;
+    }
+    
+    .lobby-text {
+        font-size: 0.95rem;
+    }
+    
+    .lobby-text.highlight {
+        font-size: 1.05rem;
+    }
+    
+    .btn-start-game {
+        font-size: 1.1rem;
+        padding: 16px 40px;
+        gap: 12px;
+    }
+}

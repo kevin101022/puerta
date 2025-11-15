@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Puerta Secreta - Juego Interactivo Medieval</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=MedievalSharp&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="ambient-overlay"></div>
+    
+    <div class="main-container" id="mainContainer">
+        
+        <header class="game-header">
+            <h1 class="game-title">La Puerta Secreta</h1>
+            <p class="game-subtitle">El Desafío del Castillo Olvidado</p>
+        </header>
+
+        <!-- Lobby de inicio -->
+        <div class="lobby-screen" id="lobbyScreen">
+            <div class="lobby-content">
+                <div class="lobby-banner">
+                    <div class="banner-decoration"></div>
+                    <h2 class="lobby-welcome">Bienvenido, Aventurero</h2>
+                    <div class="banner-decoration"></div>
+                </div>
+                
+                <div class="lobby-description">
+                    <p class="lobby-text">
+                        Ante ti se alza la puerta del Castillo Olvidado, sellada por siglos de magia ancestral.
+                    </p>
+                    <p class="lobby-text">
+                        Solo aquellos que posean la llave verdadera podrán cruzar su umbral y descubrir los secretos que yacen en las profundidades.
+                    </p>
+                    <p class="lobby-text highlight">
+                        ¿Te atreves a enfrentar el desafío?
+                    </p>
+                </div>
+                
+                <button class="btn-start-game" id="startGameButton">
+                    <span class="btn-icon">🗝️</span>
+                    <span class="btn-text">Empezar</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="game-content" id="gameContent" style="display: none;">
+            
+            <div class="camera-section" id="cameraSection">
+                <div class="camera-frame">
+                    <video id="cameraView" autoplay playsinline></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    <div class="camera-overlay">
+                        <p class="camera-instruction">Muestra la llave ante el ojo mágico</p>
+                    </div>
+                </div>
+                
+                <div class="controls-panel">
+                    <button class="btn-primary" id="startButton">
+                        <span class="btn-icon">⚔</span>
+                        <span class="btn-text">Iniciar Prueba</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="gate-scene" id="gateScene">
+                
+                <div class="torch torch-left">
+                    <div class="torch-flame"></div>
+                    <div class="torch-handle"></div>
+                </div>
+
+                <div class="castle-wall">
+                    <div class="gate-container" id="gateContainer">
+                        <div class="gate-doors" id="gateDoors">
+                            <div class="gate-door gate-door-left">
+                                <div class="door-panel"></div>
+                                <div class="door-reinforcement"></div>
+                                <div class="door-rivets"></div>
+                            </div>
+                            <div class="gate-door gate-door-right">
+                                <div class="door-panel"></div>
+                                <div class="door-reinforcement"></div>
+                                <div class="door-rivets"></div>
+                            </div>
+                            <div class="gate-keyhole"></div>
+                        </div>
+
+                        <div class="gate-arch"></div>
+                    </div>
+                </div>
+
+                <div class="torch torch-right">
+                    <div class="torch-flame"></div>
+                    <div class="torch-handle"></div>
+                </div>
+
+                <div class="hallway-reveal" id="hallwayReveal">
+                    <div class="dungeon-entrance">
+                        <div class="dark-passage">
+                            <div class="passage-glow"></div>
+                        </div>
+                        <div class="wall-torches">
+                            <div class="wall-torch left-torch torch-1">
+                                <div class="flame"></div>
+                            </div>
+                            <div class="wall-torch right-torch torch-2">
+                                <div class="flame"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="victory-message">
+                        <p class="victory-text">Las profundidades te esperan...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions-panel" id="instructionsPanel">
+                <div class="parchment">
+                    <h3 class="instructions-title">Instrucciones del Desafío</h3>
+                    <ul class="instructions-list">
+                        <li>Para abrir la puerta del castillo deberás mostrar la llave correcta frente al ojo mágico.</li>
+                        <li>Al iniciar, la cámara observará tu intento y determinará si posees la llave verdadera.</li>
+                        <li>Si no muestras la llave auténtica, la puerta permanecerá sellada.</li>
+                        <li>Mantén la llave visible frente a la cámara hasta que la puerta se abra.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-message" id="statusMessage"></div>
+    </div>
+
+    <!-- Sonidos opcionales - comentados porque no existen los archivos -->
+    <!-- <audio id="doorOpenSound" preload="auto">
+        <source src="assets/sounds/door-open.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="ambientSound" loop preload="auto">
+        <source src="assets/sounds/ambient.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="errorSound" preload="auto">
+        <source src="assets/sounds/error.mp3" type="audio/mpeg">
+    </audio> -->
+
+    <!-- Librerías de Teachable Machine para detección de posturas -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
+    
+    <!-- VAPI AI Voice Assistant Widget -->
+    <vapi-widget
+        public-key="0de5c5e3-65af-4cd8-b593-49ebff3c7e7c"
+        assistant-id="706368b4-31fe-4e35-8cab-50edc17808cf"
+        mode="voice"
+        theme="dark"
+        base-bg-color="#000000"
+        accent-color="#14B8A6"
+        cta-button-color="#000000"
+        cta-button-text-color="#ffffff"
+        border-radius="large"
+        size="full"
+        position="bottom-right"
+        title="TALK WITH AI"
+        start-button-text="Start"
+        end-button-text="End Call"
+        chat-first-message="Hey, How can I help you today?"
+        chat-placeholder="Type your message..."
+        voice-show-transcript="true"
+        consent-required="true"
+        consent-title="Terms and conditions"
+        consent-content="By clicking "Agree," and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as otherwise described in our Terms of Service."
+        consent-storage-key="vapi_widget_consent">
+    </vapi-widget>
+    <script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async type="text/javascript"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
